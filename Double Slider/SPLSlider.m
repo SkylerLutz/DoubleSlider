@@ -13,6 +13,9 @@
 @property (nonatomic) CGRect right;
 @property (nonatomic, assign) BOOL touchedLeft;
 @property (nonatomic, assign) BOOL touchedRight;
+
+@property (nonatomic, readwrite) NSInteger leftSlideValue;
+@property (nonatomic, readwrite) NSInteger rightSlideValue;
 @end
 
 @implementation SPLSlider
@@ -20,7 +23,7 @@
 #pragma mark Designated Initializer
 - (instancetype)initWithFrame:(CGRect)frame {
     if ([super initWithFrame:frame]) {
-        self.backgroundColor = [UIColor yellowColor];
+        self.backgroundColor = [UIColor clearColor];
         _maxValue = 10;
         _minValue = 1;
         _stepValue= 2;
@@ -49,6 +52,8 @@
     NSInteger diff = leftValue - self.leftSlideValue;
     
     self.leftSlideValue = leftValue - (diff % self.stepValue);
+    
+    [self sendActionsForControlEvents:UIControlEventValueChanged];
     if ([self.delegate respondsToSelector:@selector(slider:changedLeftValue:rightValue:)]) {
         [self.delegate slider:self changedLeftValue:self.leftSlideValue rightValue:self.rightSlideValue];
     }
@@ -61,6 +66,8 @@
     NSInteger diff = rightValue - self.rightSlideValue;
     
     self.rightSlideValue = rightValue - (diff % self.stepValue);
+    
+    [self sendActionsForControlEvents:UIControlEventValueChanged];
     if ([self.delegate respondsToSelector:@selector(slider:changedLeftValue:rightValue:)]) {
         [self.delegate slider:self changedLeftValue:self.leftSlideValue rightValue:self.rightSlideValue];
     }

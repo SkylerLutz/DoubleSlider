@@ -24,8 +24,8 @@
 @property (nonatomic) NSInteger maxValue;
 @property (nonatomic) NSInteger minValue;
 @property (nonatomic) NSInteger stepValue;
-@property (nonatomic) NSInteger leftSlideValue;
-@property (nonatomic) NSInteger rightSlideValue;
+@property (nonatomic, readonly) NSInteger leftSlideValue;
+@property (nonatomic, readonly) NSInteger rightSlideValue;
 @property (nonatomic) CGFloat slideRadius;
 
 @end
