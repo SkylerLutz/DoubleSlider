@@ -39,9 +39,19 @@
     self.left = CGRectMake(CGRectGetMinX(self.left), CGRectGetMidY(self.left) - self.slideRadius, _slideRadius * 2.0, _slideRadius * 2.0);
     self.right = CGRectMake(CGRectGetMaxX(self.right) - self.slideRadius * 2.0, CGRectGetMidY(self.right) - self.slideRadius, _slideRadius * 2.0, _slideRadius * 2.0);
 }
-- (void)updateValues {
+- (void)setLeft:(CGRect)left {
+    _left = left;
     
-    // TODO: update left & right slide value
+    // update slide value
+    
+    if ([self.delegate respondsToSelector:@selector(slider:changedLeftValue:rightValue:)]) {
+        [self.delegate slider:self changedLeftValue:self.leftSlideValue rightValue:self.rightSlideValue];
+    }
+}
+- (void)setRight:(CGRect)right {
+    _right = right;
+    
+    // update slide value
     
     if ([self.delegate respondsToSelector:@selector(slider:changedLeftValue:rightValue:)]) {
         [self.delegate slider:self changedLeftValue:self.leftSlideValue rightValue:self.rightSlideValue];
