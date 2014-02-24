@@ -21,9 +21,9 @@
 - (instancetype)initWithFrame:(CGRect)frame {
     if ([super initWithFrame:frame]) {
         self.backgroundColor = [UIColor yellowColor];
-        _maxValue = 100.0;
-        _minValue = 50.0;
-        _stepValue= 1.0;
+        _maxValue = 10;
+        _minValue = 1;
+        _stepValue= 2;
         _leftSlideValue = _minValue;
         _rightSlideValue = _maxValue;
         _slideRadius = CGRectGetHeight(frame) / 4.0;
@@ -46,7 +46,9 @@
     CGFloat prop = self.left.origin.x / CGRectGetMaxX(self.bounds);
     NSInteger leftValue = (self.maxValue - self.minValue) * prop + self.minValue;
 
-    self.leftSlideValue = leftValue;
+    NSInteger diff = leftValue - self.leftSlideValue;
+    
+    self.leftSlideValue = leftValue - (diff % self.stepValue);
     if ([self.delegate respondsToSelector:@selector(slider:changedLeftValue:rightValue:)]) {
         [self.delegate slider:self changedLeftValue:self.leftSlideValue rightValue:self.rightSlideValue];
     }
@@ -56,8 +58,9 @@
     
     CGFloat prop = CGRectGetMaxX(self.right) / CGRectGetMaxX(self.bounds);
     NSInteger rightValue = (self.maxValue - self.minValue) * prop + self.minValue;
+    NSInteger diff = rightValue - self.rightSlideValue;
     
-    self.rightSlideValue = rightValue;
+    self.rightSlideValue = rightValue - (diff % self.stepValue);
     if ([self.delegate respondsToSelector:@selector(slider:changedLeftValue:rightValue:)]) {
         [self.delegate slider:self changedLeftValue:self.leftSlideValue rightValue:self.rightSlideValue];
     }
