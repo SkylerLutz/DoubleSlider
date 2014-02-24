@@ -21,6 +21,7 @@
 		D4C47A6918BAC400009B49B2 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4C47A4B18BAC400009B49B2 /* UIKit.framework */; };
 		D4C47A7118BAC400009B49B2 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = D4C47A6F18BAC400009B49B2 /* InfoPlist.strings */; };
 		D4C47A7318BAC400009B49B2 /* Double_SliderTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D4C47A7218BAC400009B49B2 /* Double_SliderTests.m */; };
+		D4C47A8118BAC41E009B49B2 /* SPLSlider.m in Sources */ = {isa = PBXBuildFile; fileRef = D4C47A8018BAC41E009B49B2 /* SPLSlider.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -53,6 +54,8 @@
 		D4C47A6E18BAC400009B49B2 /* Double SliderTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Double SliderTests-Info.plist"; sourceTree = "<group>"; };
 		D4C47A7018BAC400009B49B2 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		D4C47A7218BAC400009B49B2 /* Double_SliderTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Double_SliderTests.m; sourceTree = "<group>"; };
+		D4C47A7F18BAC41E009B49B2 /* SPLSlider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SPLSlider.h; sourceTree = "<group>"; };
+		D4C47A8018BAC41E009B49B2 /* SPLSlider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SPLSlider.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -117,6 +120,8 @@
 				D4C47A5918BAC400009B49B2 /* Main.storyboard */,
 				D4C47A5C18BAC400009B49B2 /* SPLViewController.h */,
 				D4C47A5D18BAC400009B49B2 /* SPLViewController.m */,
+				D4C47A7F18BAC41E009B49B2 /* SPLSlider.h */,
+				D4C47A8018BAC41E009B49B2 /* SPLSlider.m */,
 				D4C47A5F18BAC400009B49B2 /* Images.xcassets */,
 				D4C47A4E18BAC400009B49B2 /* Supporting Files */,
 			);
@@ -250,6 +255,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D4C47A8118BAC41E009B49B2 /* SPLSlider.m in Sources */,
 				D4C47A5818BAC400009B49B2 /* SPLAppDelegate.m in Sources */,
 				D4C47A5418BAC400009B49B2 /* main.m in Sources */,
 				D4C47A5E18BAC400009B49B2 /* SPLViewController.m in Sources */,
