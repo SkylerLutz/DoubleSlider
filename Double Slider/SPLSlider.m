@@ -44,6 +44,8 @@
     _left = left;
     
     // update slide value
+
+    self.leftSlideValue = (int)(self.left.origin.x / CGRectGetMaxX(self.bounds) * 100 + self.minValue);
     
     if ([self.delegate respondsToSelector:@selector(slider:changedLeftValue:rightValue:)]) {
         [self.delegate slider:self changedLeftValue:self.leftSlideValue rightValue:self.rightSlideValue];
@@ -53,7 +55,8 @@
     _right = right;
     
     // update slide value
-    
+    self.rightSlideValue = (int)(CGRectGetMaxX(self.right) / CGRectGetMaxX(self.bounds) * 100 + self.minValue);
+                                       
     if ([self.delegate respondsToSelector:@selector(slider:changedLeftValue:rightValue:)]) {
         [self.delegate slider:self changedLeftValue:self.leftSlideValue rightValue:self.rightSlideValue];
     }

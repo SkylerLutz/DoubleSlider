@@ -13,19 +13,19 @@
 @protocol SPLSliderDelegate <NSObject>
 
 @optional
-- (void)slider:(SPLSlider *)slider changedLeftValue:(CGFloat)left rightValue:(CGFloat)right;
-- (void)slider:(SPLSlider *)slider finalizedLeftValue:(CGFloat)left rightValue:(CGFloat)right;
+- (void)slider:(SPLSlider *)slider changedLeftValue:(NSInteger)left rightValue:(NSInteger)right;
+- (void)slider:(SPLSlider *)slider finalizedLeftValue:(NSInteger)left rightValue:(NSInteger)right;
 @end
 
 @interface SPLSlider : UIControl
 
 @property (nonatomic, weak) id<SPLSliderDelegate> delegate;
 
-@property (nonatomic) CGFloat maxValue;
-@property (nonatomic) CGFloat minValue;
-@property (nonatomic) CGFloat stepValue;
-@property (nonatomic) CGFloat leftSlideValue;
-@property (nonatomic) CGFloat rightSlideValue;
+@property (nonatomic) NSInteger maxValue;
+@property (nonatomic) NSInteger minValue;
+@property (nonatomic) NSInteger stepValue;
+@property (nonatomic) NSInteger leftSlideValue;
+@property (nonatomic) NSInteger rightSlideValue;
 @property (nonatomic) CGFloat slideRadius;
 
 @end
