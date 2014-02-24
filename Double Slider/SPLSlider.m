@@ -21,7 +21,7 @@
 - (instancetype)initWithFrame:(CGRect)frame {
     if ([super initWithFrame:frame]) {
         self.backgroundColor = [UIColor yellowColor];
-        _maxValue = 200.0;
+        _maxValue = 100.0;
         _minValue = 50.0;
         _stepValue= 1.0;
         _leftSlideValue = _minValue;
@@ -63,8 +63,8 @@
     }
 }
 #pragma mark Touch Logic
-- (BOOL)touchDownInBounds:(CGPoint)down {
-    return CGRectContainsPoint(CGRectMake(CGRectGetMinX(self.bounds) + self.slideRadius, CGRectGetMinY(self.bounds), CGRectGetWidth(self.bounds) - self.slideRadius * 2.0, CGRectGetMaxY(self.bounds)), down);
+- (BOOL)slideWouldLeaveBounds:(CGPoint)down {
+    return !CGRectContainsPoint(CGRectMake(CGRectGetMinX(self.bounds) + self.slideRadius, CGRectGetMinY(self.bounds), CGRectGetWidth(self.bounds) - self.slideRadius * 2.0, CGRectGetMaxY(self.bounds)), down);
 }
 - (BOOL)slidesWouldOverlap:(CGPoint)down {
     if (self.touchedLeft) {
@@ -90,7 +90,7 @@
 - (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
     UITouch *touch = [touches anyObject];
     CGPoint down = [touch locationInView:self];
-    if (![self touchDownInBounds:down] || [self slidesWouldOverlap:down]) {
+    if ([self slideWouldLeaveBounds:down] || [self slidesWouldOverlap:down]) {
         return;
     }
     if (self.touchedLeft) {
