@@ -7,23 +7,14 @@
 //
 
 #import "SPLViewController.h"
-
-@interface SPLViewController ()
-
-@end
+#import "SPLSlider.h"
 
 @implementation SPLViewController
 
-- (void)viewDidLoad
-{
-    [super viewDidLoad];
-	// Do any additional setup after loading the view, typically from a nib.
+- (void)viewDidLoad {
+    
+    SPLSlider *slider = [[SPLSlider alloc] initWithFrame:CGRectMake(CGRectGetMinX(self.view.bounds), CGRectGetMinY(self.view.bounds), CGRectGetWidth(self.view.bounds)/1.25, 60)];
+    slider.center = self.view.center;
+    [self.view addSubview:slider];
 }
-
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
 @end

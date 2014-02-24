@@ -8,24 +8,111 @@
 
 #import "SPLSlider.h"
 
+@interface SPLSlider ()
+@property (nonatomic) CGRect left;
+@property (nonatomic) CGRect right;
+@property (nonatomic, assign) BOOL touchedLeft;
+@property (nonatomic, assign) BOOL touchedRight;
+@end
+
 @implementation SPLSlider
 
-- (id)initWithFrame:(CGRect)frame
-{
-    self = [super initWithFrame:frame];
-    if (self) {
-        // Initialization code
+- (instancetype)initWithFrame:(CGRect)frame {
+    
+    if ([super initWithFrame:frame]) {
+        self.backgroundColor = [UIColor yellowColor];
+        _maxValue = 100.0;
+        _minValue = 0.0;
+        _stepValue= 1.0;
+        _leftSlideValue = _minValue;
+        _rightSlideValue = _maxValue;
+        _slideRadius = CGRectGetHeight(frame) / 4.0;
+        
+        self.left = CGRectMake(CGRectGetMinX(self.bounds), CGRectGetMidY(self.bounds)-self.slideRadius, _slideRadius * 2.0, _slideRadius * 2.0);
+        self.right = CGRectMake(CGRectGetMaxX(self.bounds) - self.slideRadius * 2.0, CGRectGetMidY(self.bounds) - self.slideRadius, _slideRadius * 2.0, _slideRadius * 2.0);
     }
     return self;
 }
-
-/*
-// Only override drawRect: if you perform custom drawing.
-// An empty implementation adversely affects performance during animation.
-- (void)drawRect:(CGRect)rect
-{
-    // Drawing code
+- (void)setSlideRadius:(CGFloat)slideRadius {
+    _slideRadius = slideRadius;
+    
+    self.left = CGRectMake(CGRectGetMinX(self.left), CGRectGetMidY(self.left) - self.slideRadius, _slideRadius * 2.0, _slideRadius * 2.0);
+    self.right = CGRectMake(CGRectGetMaxX(self.right) - self.slideRadius * 2.0, CGRectGetMidY(self.right) - self.slideRadius, _slideRadius * 2.0, _slideRadius * 2.0);
 }
-*/
+- (void)updateValues {
+    
+    // TODO: update left & right slide value
+    
+    if ([self.delegate respondsToSelector:@selector(slider:changedLeftValue:rightValue:)]) {
+        [self.delegate slider:self changedLeftValue:self.leftSlideValue rightValue:self.rightSlideValue];
+    }
+}
+- (BOOL)touchDownInBounds:(CGPoint)down {
+    return CGRectContainsPoint(CGRectMake(CGRectGetMinX(self.bounds) + self.slideRadius, CGRectGetMinY(self.bounds), CGRectGetWidth(self.bounds) - self.slideRadius * 2.0, CGRectGetMaxY(self.bounds)), down);
+}
+- (BOOL)slidesWouldOverlap:(CGPoint)down {
+    if (self.touchedLeft) {
+        return CGRectContainsPoint(self.right, down) || down.x > self.right.origin.x;
+    }
+    else if (self.touchedRight) {
+        return CGRectContainsPoint(self.left, down) || down.x < self.left.origin.x;
+    }
+    return NO;
+}
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+    UITouch *touch = [touches anyObject];
+    CGPoint down = [touch locationInView:self];
+    if (CGRectContainsPoint(self.left, down)) { // touched left
+        self.touchedLeft = YES;
+        [self setNeedsDisplay];
+    }
+    else if (CGRectContainsPoint(self.right, down)) {
+        self.touchedRight = YES;
+        [self setNeedsDisplay];
+    }
+}
+- (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
+    UITouch *touch = [touches anyObject];
+    CGPoint down = [touch locationInView:self];
+    if (![self touchDownInBounds:down] || [self slidesWouldOverlap:down]) {
+        return;
+    }
+    if (self.touchedLeft) {
+        self.left = CGRectMake(down.x-self.slideRadius, CGRectGetMinY(self.left), CGRectGetWidth(self.left), CGRectGetHeight(self.left));
+        [self updateValues];
+        [self setNeedsDisplay];
+    }
+    else if (self.touchedRight) {
+        self.right = CGRectMake(down.x-self.slideRadius, CGRectGetMinY(self.right), CGRectGetWidth(self.right), CGRectGetHeight(self.right));
+        [self updateValues];
+        [self setNeedsDisplay];
+    }
+    
+}
+- (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
+    self.touchedLeft = self.touchedRight = NO;
+    
+    if ([self.delegate respondsToSelector:@selector(slider:finalizedLeftValue:rightValue:)]) {
+        [self.delegate slider:self finalizedLeftValue:self.leftSlideValue rightValue:self.rightSlideValue];
+    }
+}
+- (void)drawRect:(CGRect)rect {
+    
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    CGPoint baseline_begin = CGPointMake(CGRectGetMinX(self.bounds) + self.slideRadius, CGRectGetMidY(self.bounds));
+    CGPoint baseline_end = CGPointMake(CGRectGetMaxX(self.bounds) - self.slideRadius, CGRectGetMidY(self.bounds));
+    CGContextMoveToPoint(context, baseline_begin.x, baseline_begin.y);
+    CGContextAddLineToPoint(context, baseline_end.x, baseline_end.y);
+    CGContextStrokePath(context);
+    
+    CGContextSaveGState(context);
+    CGContextSetFillColorWithColor(context, [UIColor whiteColor].CGColor);
+    CGContextSetStrokeColorWithColor(context, [UIColor blackColor].CGColor);
+    CGContextFillEllipseInRect(context, self.left);
+    CGContextStrokeEllipseInRect(context, self.left);
+    CGContextFillEllipseInRect(context, self.right);
+    CGContextStrokeEllipseInRect(context, self.right);
+    CGContextRestoreGState(context);
+}
 
 @end
