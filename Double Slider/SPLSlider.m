@@ -17,8 +17,8 @@
 
 @implementation SPLSlider
 
+#pragma mark Designated Initializer
 - (instancetype)initWithFrame:(CGRect)frame {
-    
     if ([super initWithFrame:frame]) {
         self.backgroundColor = [UIColor yellowColor];
         _maxValue = 100.0;
@@ -33,6 +33,7 @@
     }
     return self;
 }
+#pragma mark Overridden Setter Methods
 - (void)setSlideRadius:(CGFloat)slideRadius {
     _slideRadius = slideRadius;
     
@@ -57,6 +58,7 @@
         [self.delegate slider:self changedLeftValue:self.leftSlideValue rightValue:self.rightSlideValue];
     }
 }
+#pragma mark Touch Logic
 - (BOOL)touchDownInBounds:(CGPoint)down {
     return CGRectContainsPoint(CGRectMake(CGRectGetMinX(self.bounds) + self.slideRadius, CGRectGetMinY(self.bounds), CGRectGetWidth(self.bounds) - self.slideRadius * 2.0, CGRectGetMaxY(self.bounds)), down);
 }
@@ -89,12 +91,10 @@
     }
     if (self.touchedLeft) {
         self.left = CGRectMake(down.x-self.slideRadius, CGRectGetMinY(self.left), CGRectGetWidth(self.left), CGRectGetHeight(self.left));
-        [self updateValues];
         [self setNeedsDisplay];
     }
     else if (self.touchedRight) {
         self.right = CGRectMake(down.x-self.slideRadius, CGRectGetMinY(self.right), CGRectGetWidth(self.right), CGRectGetHeight(self.right));
-        [self updateValues];
         [self setNeedsDisplay];
     }
     
@@ -106,6 +106,7 @@
         [self.delegate slider:self finalizedLeftValue:self.leftSlideValue rightValue:self.rightSlideValue];
     }
 }
+#pragma mark Drawing
 - (void)drawRect:(CGRect)rect {
     
     CGContextRef context = UIGraphicsGetCurrentContext();
