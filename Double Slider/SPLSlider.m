@@ -46,7 +46,7 @@
 - (void)setLeft:(CGRect)left {
     _left = left;
     
-    CGFloat prop = self.left.origin.x / CGRectGetMaxX(self.bounds);
+    CGFloat prop = self.left.origin.x / (CGRectGetMaxX(self.bounds) - self.slideRadius);
     NSInteger leftValue = (self.maxValue - self.minValue) * prop + self.minValue;
 
     NSInteger diff = leftValue - self.leftSlideValue;
@@ -61,7 +61,7 @@
 - (void)setRight:(CGRect)right {
     _right = right;
     
-    CGFloat prop = CGRectGetMaxX(self.right) / CGRectGetMaxX(self.bounds);
+    CGFloat prop = CGRectGetMaxX(self.right) / (CGRectGetMaxX(self.bounds) - self.slideRadius);
     NSInteger rightValue = (self.maxValue - self.minValue) * prop + self.minValue;
     NSInteger diff = rightValue - self.rightSlideValue;
     
