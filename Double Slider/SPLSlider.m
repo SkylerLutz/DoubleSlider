@@ -124,11 +124,19 @@
 - (void)drawRect:(CGRect)rect {
     
     CGContextRef context = UIGraphicsGetCurrentContext();
-    CGPoint baseline_begin = CGPointMake(CGRectGetMinX(self.bounds) + self.slideRadius, CGRectGetMidY(self.bounds));
-    CGPoint baseline_end = CGPointMake(CGRectGetMaxX(self.bounds) - self.slideRadius, CGRectGetMidY(self.bounds));
-    CGContextMoveToPoint(context, baseline_begin.x, baseline_begin.y);
-    CGContextAddLineToPoint(context, baseline_end.x, baseline_end.y);
+    CGPoint baselineBegin = CGPointMake(CGRectGetMinX(self.bounds) + self.slideRadius, CGRectGetMidY(self.bounds));
+    CGPoint baselineEnd = CGPointMake(CGRectGetMaxX(self.bounds) - self.slideRadius, CGRectGetMidY(self.bounds));
+    CGContextMoveToPoint(context, baselineBegin.x, baselineBegin.y);
+    CGContextAddLineToPoint(context, baselineEnd.x, baselineEnd.y);
     CGContextStrokePath(context);
+    
+    CGContextSaveGState(context);
+    CGContextSetStrokeColorWithColor(context, [UIColor greenColor].CGColor);
+    CGContextSetLineWidth(context, 3.0);
+    CGContextMoveToPoint(context, CGRectGetMinX(self.left)+self.slideRadius, CGRectGetMidY(self.bounds));
+    CGContextAddLineToPoint(context, CGRectGetMinX(self.right) + self.slideRadius, CGRectGetMidY(self.bounds));
+    CGContextStrokePath(context);
+    CGContextRestoreGState(context);
     
     CGContextSaveGState(context);
     CGContextSetFillColorWithColor(context, [UIColor whiteColor].CGColor);
